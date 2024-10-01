@@ -14,7 +14,7 @@ public class Book_Manager {
 	private String driver = "com.mysql.cj.jdbc.Driver";
 	private String url = "jdbc:mysql://127.0.0.1:3306/bookdb?severTimeZone=UTC";
 	private String id = "root";
-	private String pw = "1234";
+	private String pw = "6532";
 
 	public static Connection conn = null;
 	public static Statement stmt = null;
@@ -57,21 +57,19 @@ public class Book_Manager {
 			e.printStackTrace();
 		}
 	}
-	public void getAllBook(String user_id, String yn) {
+	public void getAllBook(String user_id) {
 
 		// 문자열 변수에 쿼리를 저장
-		String sql = "select * from Book b inner join rental r "
-				+ "on b.bookno = r.bookno where r.userid = ? and r.return_yn = ?";
+		String sql = "select * from Book b inner join rental r inner join user u on b.bookno = r.bookno and r.userid=u.userid where r.userid = ?";
 
 		try {
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 			pstmt.setString(1, user_id);
-			pstmt.setString(2, yn);
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
-				String userid = rs.getString("userid");
+				String username = rs.getString("username");
 				String bookno = rs.getString("bookno");
 				String bookname = rs.getString("b.bookname");
 				Timestamp rental_date = rs.getTimestamp("rental_date");
@@ -79,12 +77,13 @@ public class Book_Manager {
 				String return_yn = rs.getString("return_yn");
 
 				System.out.println("===================================================================");
-				System.out.println("유저 아이디: " + userid + " 책 번호: " + bookno);
-				System.out.println("책 제목: " + bookname + " 대여기한: " + rental_date);
-				System.out.println("출판사: " + publisher + " 반납 여부: " + return_yn);
+				System.out.println("유저 이름: " + username);
+				System.out.println("책 번호: " + bookno);
+				System.out.println("책 제목: " + bookname);
+				System.out.println("대여기한: " + rental_date);
+				System.out.println("출판사: " + publisher);
+				System.out.println("반납 여부: " + return_yn);
 				System.out.println("===================================================================");
-				
-			
 			}
 			// 다 사용하면 닫아준다.
 			rs.close();
