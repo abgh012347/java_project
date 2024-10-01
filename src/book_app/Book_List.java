@@ -270,15 +270,15 @@ public class Book_List {
 
 	public static int selectBookCount(String bookname) { // 도서명별 대여가능 권 수 반환
 		String sql = "select bookcount as cnt from book where bookname=?";
-		int count=0;
-		
+		int count = 0;
+
 		try {
 			PreparedStatement pstmt = manager.conn.prepareStatement(sql);
 			pstmt.setString(1, bookname);
 			ResultSet rs = pstmt.executeQuery();
 
-			if(rs.next()) {
-				count=rs.getInt("cnt")-1;
+			if (rs.next()) {
+				count = rs.getInt("cnt") - 1;
 			}
 			rs.close();
 
@@ -286,21 +286,21 @@ public class Book_List {
 			System.out.println("selectBookCount() 오류 발생");
 			e.printStackTrace();
 		}
-		
+
 		return count;
 	}
-	
+
 	public static void minusBookCount(String b_name) { // 도서별 대여가능 권 수 업데이트
 		String sql = "update book set bookcount=? where bookname=?";
-		int cnt=selectBookCount(b_name);
-		
-		if(cnt==-1) {
+		int cnt = selectBookCount(b_name);
+
+		if (cnt == -1) {
 			System.out.println("해당 도서는 대여가 불가능합니다.");
 			return;
 		} else {
 			System.out.println("'" + oneBook.getBookname() + "'" + " 도서 대여가 완료되었습니다.");
 		}
-		
+
 		try {
 			PreparedStatement pstmt = manager.conn.prepareStatement(sql);
 			pstmt.setInt(1, cnt);

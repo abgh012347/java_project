@@ -8,7 +8,7 @@ public class Rental {
 	private int bookno;
 	private LocalDateTime rental_date;
 	private String return_yn;
-	
+
 	public Rental() {
 		// TODO Auto-generated constructor stub
 	}
@@ -45,5 +45,4 @@ public class Rental {
 		this.return_yn = return_yn;
 	}
 
-	
 }

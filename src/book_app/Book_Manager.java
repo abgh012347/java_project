@@ -35,28 +35,30 @@ public class Book_Manager {
 			e.printStackTrace();
 		}
 	}
-	public static boolean authenticateUser(String id, String password) {
-        String sql = "SELECT * FROM user WHERE userid = ? AND userpw = ?"; // 테이블 이름과 컬럼 이름 변경 필요
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
-            statement.setString(1, id);
-            statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // 결과가 존재하면 true 반환
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
 	public void releaseDB() {
 		try {
 			this.conn.close();
 			this.stmt.close();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public static boolean authenticateUser(String id, String password) {
+		String sql = "SELECT * FROM user WHERE userid = ? AND userpw = ?"; // 테이블 이름과 컬럼 이름 변경 필요
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
+			statement.setString(1, id);
+			statement.setString(2, password);
+			ResultSet resultSet = statement.executeQuery();
+			return resultSet.next(); // 결과가 존재하면 true 반환
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public void getAllBook(String user_id) {
 
 		// 문자열 변수에 쿼리를 저장
@@ -91,6 +93,5 @@ public class Book_Manager {
 			e.printStackTrace();
 		}
 	}
-	
 
 }
