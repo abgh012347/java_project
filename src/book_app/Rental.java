@@ -10,7 +10,7 @@ public class Rental {
 	private String return_yn;
 	
 	public Rental() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public String getUserid() {
