@@ -13,17 +13,6 @@ public class Book_List {
 	static Book oneBook = null;
 	static String nowUser = "";
 
-//	public static void main(String[] args) {
-//		manager.initDBConnect();
-//
-//		Scanner input = new Scanner(System.in);
-////		bookMenu();
-////		showAllBook();
-////		selectCategory(input.nextLine());
-////		searchBook(input.nextLine());
-////		pickBook();
-//	}
-
 	public static void bookMenu() {
 		manager.initDBConnect();
 		Scanner input = new Scanner(System.in);
