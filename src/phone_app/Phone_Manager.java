@@ -11,7 +11,7 @@ import book_app.Book_List;
 
 public class Phone_Manager {
 	public String driver = "com.mysql.cj.jdbc.Driver";
-	public String url = "jdbc:mysql://127.0.0.1:3306/phoneDB?severTimeZone=UTC";
+	public String url = "jdbc:mysql://:3306/phoneDB?severTimeZone=UTC";
 	public String id = "root";
 	public String pw = "1234";
 	public static String p_phone_number;
@@ -238,8 +238,10 @@ public class Phone_Manager {
 		switch(select_no) {
 		case 1: 
 			manager.insert_user_list();
+			break;
 		case 2:
 			manager.delete_user_list();
+			break;
 		default :
 			break;
 		}
@@ -265,7 +267,10 @@ public class Phone_Manager {
 
 			Phone_DBManager manager = new Phone_DBManager();
 			manager.initDBConnect();
+			//allFetch 메소드에서 차단한 레코드를 blockedlist 변수와 이어준다.
 			manager.allFetch();
+			
+			// get으로 레코드 정보를 담은 테이블 객체를 가져와서 새로운 변수와 이어준다.
 			Phone_DBManager[] blockedList = manager.getBlockedList();
 			for (int i = 0; i < blockedList.length; i++) {
 				System.out.println(blockedList[i].getPhone_number());
@@ -343,6 +348,7 @@ public class Phone_Manager {
 						}
 					}
 					end_flag = true;
+					String  n = "N";
 					manager.outputNumber(phnumber);
 					System.out.println("해당 번호가 차단해제 되었습니다.");
 				} else {
