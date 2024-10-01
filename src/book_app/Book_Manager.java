@@ -14,7 +14,7 @@ public class Book_Manager {
 	private String driver = "com.mysql.cj.jdbc.Driver";
 	private String url = "jdbc:mysql://127.0.0.1:3306/bookdb?severTimeZone=UTC";
 	private String id = "root";
-	private String pw = "6532";
+	private String pw = "1234";
 
 	public static Connection conn = null;
 	public static Statement stmt = null;
