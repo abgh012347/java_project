@@ -14,7 +14,7 @@ public class Phone_DBManager {
 	private static String driver = "com.mysql.cj.jdbc.Driver";
 	private static String url = "jdbc:mysql://127.0.0.1:3306/phoneDB?severTimeZone=UTC";
 	private static String id = "root";
-	private static String pw = "1234";
+	private static String pw = "6532";
 	private static String p_phone_number;
 
 	public static Connection conn = null;
