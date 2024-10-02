@@ -38,7 +38,7 @@ public class Book_List {
 				AfterLoginMenu();
 				break;
 			case 2:
-				//User_List.userMenu();
+				User_List.userMenu();
 				break;
 			case 3:
 				System.out.println("도서앱을 종료합니다.");

@@ -33,4 +33,9 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public User(String userid, String userpw, String username) {
+		this.userid=userid;
+		this.userpw = userpw;
+		this.username = username;
+	}
 }
