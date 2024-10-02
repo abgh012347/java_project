@@ -39,6 +39,7 @@ public class Book_List {
 				System.out.println("숫자를 입력해주세요. (1글자)");
 				continue;
 			}
+			
 			int num = Integer.parseInt(number);
 
 			switch(num) {
