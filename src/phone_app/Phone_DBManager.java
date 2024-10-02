@@ -23,6 +23,9 @@ public class Phone_DBManager {
 	public Phone_DBManager[] blockedList = null;
 
 	static int callCount=0;
+	
+	
+	
 	static Phone_Manager manager = new Phone_Manager();
 	private int history_no;
 	private int user_id;

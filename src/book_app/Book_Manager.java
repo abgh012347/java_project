@@ -11,10 +11,10 @@ import java.sql.PreparedStatement; // 동적sql
 
 public class Book_Manager {
 
-	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://127.0.0.1:3306/bookdb?severTimeZone=UTC";
-	private String id = "root";
-	private String pw = "1234";
+	private static String driver = "com.mysql.cj.jdbc.Driver";
+	private static String url = "jdbc:mysql://127.0.0.1:3306/bookdb?severTimeZone=UTC";
+	private static String id = "root";
+	private static String pw = "6532";
 
 	public static Connection conn = null;
 	public static Statement stmt = null;
@@ -23,11 +23,11 @@ public class Book_Manager {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void initDBConnect() { // db 연동
+	public static void initDBConnect() { // db 연동
 		try {
 			Class.forName(driver); // driver을 메모리에 로드한다. (driver: 클래스이다.)
-			this.conn = DriverManager.getConnection(this.url, this.id, this.pw); // getConnection: 커넥션 객체를 만들어줌
-			this.stmt = conn.createStatement(); // 연결객체를 통해서 명령객체가 만들어져서 stmt에 넣는다.
+			conn = DriverManager.getConnection(url, id, pw); // getConnection: 커넥션 객체를 만들어줌
+			stmt = conn.createStatement(); // 연결객체를 통해서 명령객체가 만들어져서 stmt에 넣는다.
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
