@@ -5,9 +5,15 @@ public class User {
 	private String userid;
 	private String userpw;
 	private String username;
-
+	
+	public User(String userid, String userpw, String username) {
+		this.userid=userid;
+		this.userpw = userpw;
+		this.username = username;
+	}
+	
 	public User(String userid) {
-		this.userid = userid;
+		this.userid=userid;
 	}
 
 	public String getUserid() {

@@ -17,6 +17,45 @@ public class Book_List {
 		manager.initDBConnect();
 		Scanner input = new Scanner(System.in);
 		Book_Manager manager = new Book_Manager();
+		boolean end_flag=false;
+		
+		while(true) {
+			System.out.println("1. 로그인, 2. 회원가입 3. 도서앱 종료");
+			System.out.println("★ 메뉴 번호를 선택해 주세요");
+
+			Scanner in = new Scanner(System.in);
+			String number = in.nextLine();
+
+			if (!checkInputOnlyNumberAndAlphabet(number) || number.length() != 1) {
+				System.out.println("숫자를 입력해주세요. (1글자)");
+				continue;
+			}
+
+			int num = Integer.parseInt(number);
+			
+			switch(num) {
+			case 1:
+				AfterLoginMenu();
+				break;
+			case 2:
+				User_List.userMenu();
+				break;
+			case 3:
+				System.out.println("도서앱을 종료합니다.");
+				end_flag=true;
+				break;
+			}
+			
+			if(end_flag) {
+				break;
+			}
+		}
+		
+	}
+	
+	public static void AfterLoginMenu() {
+		Scanner input = new Scanner(System.in);
+		
 		while (true) {
 			System.out.print("아이디를 입력하세요:");
 			String idInput = input.nextLine();
@@ -30,9 +69,10 @@ public class Book_List {
 				break; // 로그인 성공 시 반복문 종료
 			} else {
 				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
+				continue;
 			}
 		}
-
+		
 		boolean flag = false;
 
 		while (true) {
@@ -93,7 +133,7 @@ public class Book_List {
 					manager.getAllBook(nowUser);
 					return;
 				case 3:
-					System.out.println("로그아웃.");
+					System.out.println("로그아웃되었습니다.");
 					nowUser = "";
 					flag = true;
 					return;
@@ -270,15 +310,15 @@ public class Book_List {
 
 	public static int selectBookCount(String bookname) { // 도서명별 대여가능 권 수 반환
 		String sql = "select bookcount as cnt from book where bookname=?";
-		int count = 0;
-
+		int count=0;
+		
 		try {
 			PreparedStatement pstmt = manager.conn.prepareStatement(sql);
 			pstmt.setString(1, bookname);
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
-				count = rs.getInt("cnt") - 1;
+			if(rs.next()) {
+				count=rs.getInt("cnt")-1;
 			}
 			rs.close();
 
@@ -286,21 +326,21 @@ public class Book_List {
 			System.out.println("selectBookCount() 오류 발생");
 			e.printStackTrace();
 		}
-
+		
 		return count;
 	}
-
+	
 	public static void minusBookCount(String b_name) { // 도서별 대여가능 권 수 업데이트
 		String sql = "update book set bookcount=? where bookname=?";
-		int cnt = selectBookCount(b_name);
-
-		if (cnt == -1) {
+		int cnt=selectBookCount(b_name);
+		
+		if(cnt==-1) {
 			System.out.println("해당 도서는 대여가 불가능합니다.");
 			return;
 		} else {
 			System.out.println("'" + oneBook.getBookname() + "'" + " 도서 대여가 완료되었습니다.");
 		}
-
+		
 		try {
 			PreparedStatement pstmt = manager.conn.prepareStatement(sql);
 			pstmt.setInt(1, cnt);
