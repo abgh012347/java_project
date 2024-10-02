@@ -18,28 +18,58 @@ public class Book_List {
 		manager.initDBConnect();
 		Scanner input = new Scanner(System.in);
 		Book_Manager manager = new Book_Manager();
+		boolean end_flag=false;
+
 		while (true) {
-			System.out.println("====================================================");
-			System.out.println("██╗     ██╗██████╗ ██████╗  █████╗ ██████╗ ██╗   ██╗");
-			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝");
-			System.out.println("██║     ██║██████╔╝██████╔╝███████║██████╔╝ ╚████╔╝ ");
-			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██║██╔══██╗  ╚██╔╝  ");
-			System.out.println("███████╗██║██████╔╝██║  ██║██║  ██║██║  ██║   ██║   ");
-			System.out.println("╚══════╝╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ");   
-			System.out.println("====================================================");
-			System.out.print("아이디를 입력하세요:");
-			String idInput = input.nextLine();
-			System.out.print("패스워드를 입력하세요:");
-			String pwInput = input.nextLine();
+			System.out.println("1. 로그인, 2. 회원가입 3. 도서앱 종료");
+			System.out.println("★ 메뉴 번호를 선택해 주세요");
 
-			if (manager.authenticateUser(idInput, pwInput)) {
-				nowUser = idInput;
-				System.out.println("로그인 성공!!!");
+			Scanner in = new Scanner(System.in);
+			String number = in.nextLine();
 
-				break; // 로그인 성공 시 반복문 종료
-			} else {
-				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
+			if (!checkInputOnlyNumberAndAlphabet(number) || number.length() != 1) {
+				System.out.println("숫자를 입력해주세요. (1글자)");
+				continue;
 			}
+			int num = Integer.parseInt(number);
+
+			switch(num) {
+			case 1:
+				AfterLoginMenu();
+				break;
+			case 2:
+				//User_List.userMenu();
+				break;
+			case 3:
+				System.out.println("도서앱을 종료합니다.");
+				end_flag=true;
+				break;
+			}
+
+			if(end_flag) {
+				break;
+			}
+//			System.out.println("====================================================");
+//			System.out.println("██╗     ██╗██████╗ ██████╗  █████╗ ██████╗ ██╗   ██╗");
+//			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝");
+//			System.out.println("██║     ██║██████╔╝██████╔╝███████║██████╔╝ ╚████╔╝ ");
+//			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██║██╔══██╗  ╚██╔╝  ");
+//			System.out.println("███████╗██║██████╔╝██║  ██║██║  ██║██║  ██║   ██║   ");
+//			System.out.println("╚══════╝╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ");   
+//			System.out.println("====================================================");
+//			System.out.print("아이디를 입력하세요:");
+//			String idInput = input.nextLine();
+//			System.out.print("패스워드를 입력하세요:");
+//			String pwInput = input.nextLine();
+//
+//			if (manager.authenticateUser(idInput, pwInput)) {
+//				nowUser = idInput;
+//				System.out.println("로그인 성공!!!");
+//
+//				break; // 로그인 성공 시 반복문 종료
+//			} else {
+//				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
+//			}
 		}
 
 		boolean flag = false;
@@ -114,7 +144,28 @@ public class Book_List {
 			}
 		}
 	}
+	public static void AfterLoginMenu() {
+		Scanner input = new Scanner(System.in);
 
+		while (true) {
+			System.out.print("아이디를 입력하세요:");
+			String idInput = input.nextLine();
+			System.out.print("패스워드를 입력하세요:");
+			String pwInput = input.nextLine();
+
+			if (manager.authenticateUser(idInput, pwInput)) {
+				nowUser = idInput;
+				System.out.println("로그인 성공!!!");
+
+				break; // 로그인 성공 시 반복문 종료
+			} else {
+				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
+				continue;
+			}
+		}
+	}
+
+//		boolean flag = false;
 //	public static void Book_MyList_info() {
 //		Scanner sc = new Scanner(System.in);
 //		System.out.println("===================================================================");
