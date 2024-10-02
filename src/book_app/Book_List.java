@@ -21,6 +21,10 @@ public class Book_List {
 		boolean end_flag=false;
 
 		while (true) {
+			if(end_flag) {
+				break;
+			}
+			
 			System.out.println("====================================================");
 			System.out.println("██╗     ██╗██████╗ ██████╗  █████╗ ██████╗ ██╗   ██╗");
 			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝");
@@ -52,11 +56,7 @@ public class Book_List {
 			case 3:
 				System.out.println("도서앱을 종료합니다.");
 				end_flag=true;
-				break;
-			}
-
-			if(end_flag) {
-				break;
+				continue;
 			}
 
 //			System.out.print("아이디를 입력하세요:");
@@ -73,7 +73,28 @@ public class Book_List {
 //				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
 //			}
 		}
+	}
+	
+	public static void AfterLoginMenu() {
+		Scanner input = new Scanner(System.in);
 
+		while (true) {
+			System.out.print("아이디를 입력하세요:");
+			String idInput = input.nextLine();
+			System.out.print("패스워드를 입력하세요:");
+			String pwInput = input.nextLine();
+
+			if (manager.authenticateUser(idInput, pwInput)) {
+				nowUser = idInput;
+				System.out.println("로그인 성공!!!");
+
+				break;
+			} else {
+				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
+				continue;
+			}
+		}
+		
 		boolean flag = false;
 
 		while (true) {
@@ -132,9 +153,9 @@ public class Book_List {
 					System.out.println("현재 나의 서고 목록");
 					System.out.println("===================================================================");
 					manager.getAllBook(nowUser);
-					return;
+					break;
 				case 3:
-					System.out.println("로그아웃.");
+					System.out.println("로그아웃되었습니다.");
 					nowUser = "";
 					flag = true;
 					return;
@@ -143,26 +164,6 @@ public class Book_List {
 
 			if (flag) {
 				break;
-			}
-		}
-	}
-	public static void AfterLoginMenu() {
-		Scanner input = new Scanner(System.in);
-
-		while (true) {
-			System.out.print("아이디를 입력하세요:");
-			String idInput = input.nextLine();
-			System.out.print("패스워드를 입력하세요:");
-			String pwInput = input.nextLine();
-
-			if (manager.authenticateUser(idInput, pwInput)) {
-				nowUser = idInput;
-				System.out.println("로그인 성공!!!");
-
-				break;
-			} else {
-				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
-				continue;
 			}
 		}
 	}

@@ -52,11 +52,11 @@ public class Phone_Call {
 		LocalDateTime nowDateTime = LocalDateTime.now();
 		
 		
-		if(manager.selectNumber(number)) {
+		if(!manager.selectNumber(number)) {
 			System.out.println("연결 성공");
 			manager.inputCallUser(new Phone_DBManager(oneUser[0].getPhone_number(), nowDateTime));
 		} else {
-			System.out.println("해당 전화번호는 없는 전화번호입니다.");
+			System.out.println("차단된 번호입니다.");
 		}
 		
 	}
