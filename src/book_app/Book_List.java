@@ -14,10 +14,19 @@ public class Book_List {
 	static String nowUser = "";
 
 	public static void bookMenu() {
+		                                    
 		manager.initDBConnect();
 		Scanner input = new Scanner(System.in);
 		Book_Manager manager = new Book_Manager();
 		while (true) {
+			System.out.println("====================================================");
+			System.out.println("██╗     ██╗██████╗ ██████╗  █████╗ ██████╗ ██╗   ██╗");
+			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝");
+			System.out.println("██║     ██║██████╔╝██████╔╝███████║██████╔╝ ╚████╔╝ ");
+			System.out.println("██║     ██║██╔══██╗██╔══██╗██╔══██║██╔══██╗  ╚██╔╝  ");
+			System.out.println("███████╗██║██████╔╝██║  ██║██║  ██║██║  ██║   ██║   ");
+			System.out.println("╚══════╝╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ");   
+			System.out.println("====================================================");
 			System.out.print("아이디를 입력하세요:");
 			String idInput = input.nextLine();
 			System.out.print("패스워드를 입력하세요:");

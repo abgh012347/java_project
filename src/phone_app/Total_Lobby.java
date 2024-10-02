@@ -11,6 +11,7 @@ public class Total_Lobby {
     }
 
     public static void main(String[] args) {
+    	
     	manager.Main_Menu_Open();
     }
 }

@@ -101,9 +101,14 @@ public class Phone_Manager {
 	
 	public void Main_Menu_Open() {
 		 while(true) {
-	        	System.out.println("=======================");
-	        	System.out.println("     프로젝트 메인화면");
-	            System.out.println("=======================");
+			 	System.out.println("===========================================================================================");
+		    	System.out.println("███████╗███╗   ███╗ █████╗ ██████╗ ████████╗    ██████╗ ██╗  ██╗ ██████╗ ███╗   ██╗███████╗");
+		    	System.out.println("██╔════╝████╗ ████║██╔══██╗██╔══██╗╚══██╔══╝    ██╔══██╗██║  ██║██╔═══██╗████╗  ██║██╔════╝");
+		    	System.out.println("███████╗██╔████╔██║███████║██████╔╝   ██║       ██████╔╝███████║██║   ██║██╔██╗ ██║█████╗  ");
+		    	System.out.println("╚════██║██║╚██╔╝██║██╔══██║██╔══██╗   ██║       ██╔═══╝ ██╔══██║██║   ██║██║╚██╗██║██╔══╝  ");
+		    	System.out.println("███████║██║ ╚═╝ ██║██║  ██║██║  ██║   ██║       ██║     ██║  ██║╚██████╔╝██║ ╚████║███████╗");
+		    	System.out.println("╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝");
+		    	System.out.println("===========================================================================================");
 	            System.out.println("1. 전화, 2. 도서, 3. 종료" );
 	            System.out.println("★ 메뉴 번호를 선택해 주세요");
 
@@ -115,11 +120,11 @@ public class Phone_Manager {
 	            } else {
 	                switch(number) {
 	                    case 1: 
-	                        System.out.println("전화");
+	                        //System.out.println("전화");
 	                        Phone_Menu_Open();
 	                        break;
 	                    case 2: 
-	                        System.out.println("도서");
+	                        //System.out.println("도서");
 	                        Book_List blist = new Book_List();
 	                        blist.bookMenu();
 	                        break;
@@ -131,11 +136,14 @@ public class Phone_Manager {
 	        }
 	}
 	public void Phone_Menu() {
-			System.out.println("======================================");
-			System.out.println();
-			System.out.println("전화");
-		    System.out.println();
-			System.out.println("======================================");
+			System.out.println("===============================================================================");
+			System.out.println("██████╗ ██╗  ██╗ ██████╗ ███╗   ██╗███████╗     ██████╗ █████╗ ██╗     ██╗     ");
+			System.out.println("██╔══██╗██║  ██║██╔═══██╗████╗  ██║██╔════╝    ██╔════╝██╔══██╗██║     ██║     ");
+			System.out.println("██████╔╝███████║██║   ██║██╔██╗ ██║█████╗      ██║     ███████║██║     ██║     ");
+			System.out.println("██╔═══╝ ██╔══██║██║   ██║██║╚██╗██║██╔══╝      ██║     ██╔══██║██║     ██║     ");
+			System.out.println("██║     ██║  ██║╚██████╔╝██║ ╚████║███████╗    ╚██████╗██║  ██║███████╗███████╗");
+			System.out.println("╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝     ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝");
+			System.out.println("===============================================================================");
 			System.out.println("1.전화걸기");
 			System.out.println("2.연락처");
 			System.out.println("3.통화기록");
