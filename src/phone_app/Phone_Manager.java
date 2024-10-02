@@ -197,7 +197,7 @@ public class Phone_Manager {
 		manager.initDBConnect();
 		
 		Scanner input=new Scanner(System.in);
-		
+		System.out.println("===============================================================================");
 		System.out.println("1\t2\t3");
 		System.out.println();
 		System.out.println("4\t5\t6");
@@ -205,6 +205,8 @@ public class Phone_Manager {
 		System.out.println("7\t8\t9");
 		System.out.println();
 		System.out.println("*\t0\t#");
+		System.out.println("===============================================================================");
+		
 		
 		System.out.print("번호: ");
 		String number=input.nextLine();
@@ -250,8 +252,10 @@ public class Phone_Manager {
 		switch(select_no) {
 		case 1: 
 			manager.insert_user_list();
+			break;
 		case 2:
 			manager.delete_user_list();
+			break;
 		default :
 			break;
 		}

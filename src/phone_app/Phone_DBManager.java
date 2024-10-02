@@ -214,7 +214,7 @@ public class Phone_DBManager {
 			
 
 			// 문자열 변수에 쿼리를 저장
-			String sql = "select * from phone_userlist";
+			String sql = "select * from phone_userlist where p_block_yn = 'N'";
 
 			try {
 				
