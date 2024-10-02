@@ -14,7 +14,7 @@ public class Phone_DBManager {
 	private static String driver = "com.mysql.cj.jdbc.Driver";
 	private static String url = "jdbc:mysql://127.0.0.1:3306/phoneDB?severTimeZone=UTC";
 	private static String id = "root";
-	private static String pw = "6532";
+	private static String pw = "1234";
 	private static String p_phone_number;
 
 	public static Connection conn = null;
@@ -26,6 +26,7 @@ public class Phone_DBManager {
 	static Phone_Manager manager = new Phone_Manager();
 	private int history_no;
 	private int user_id;
+	private String user_name;
 	private String phone_number;
 	private LocalDateTime call_date;
 	boolean insert_flag = true;
@@ -42,6 +43,10 @@ public class Phone_DBManager {
 	public Phone_DBManager(String number) {
 		this.phone_number=number;
 	}
+	public Phone_DBManager(String number,String name) {
+		this.phone_number=number;
+		this.user_name = name;
+	}
 
 	public int getHistory_no() {
 		return history_no;
@@ -54,7 +59,9 @@ public class Phone_DBManager {
 	public String getPhone_number() {
 		return phone_number;
 	}
-
+	public String getUser_name() {
+		return user_name;
+	}
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
@@ -134,9 +141,9 @@ public class Phone_DBManager {
 			
 			if(!selectNumber(number)) {
 				System.out.println("연결 성공");
-				inputCallUser(new Phone_DBManager(oneUser[0].getPhone_number(), nowDateTime));
+				inputCallUser(new Phone_DBManager(number, nowDateTime));
 			} else {
-				System.out.println("해당 전화번호는 없는 전화번호입니다.");
+				System.out.println("차단된 번호입니다..");
 			}
 			
 		}
@@ -180,7 +187,7 @@ public class Phone_DBManager {
 		}
 		
 		public static void showCallHistory() {
-			String sql = "select c.p_history_no as id, u.p_user_name as name, c.p_phone_number as number, c.p_call_date as date from Phone_CallHistory c inner join phone_userlist u where c.p_phone_number=u.p_phone_number order by id;";
+			String sql = "select c.p_history_no as id, u.p_user_name as name, c.p_phone_number as number, c.p_call_date as date from Phone_CallHistory c inner join phone_userlist u where c.p_phone_number=u.p_phone_number order by id desc;";
 			
 			try {
 //				Phone_Manager manager = new Phone_Manager();
@@ -249,17 +256,16 @@ public class Phone_DBManager {
 		}
 
 		// 테이블에 있는 유저 정보를 삭제할 메소드이다.
-		public void deleteUser(String phone_number, String user_name) {
+		public void deleteUser(String phone_number) {
 
 			// where에서 이름과 전화번호를 조건으로 확실히 필터링 후에 삭제하는 쿼리이다.
-			String sql = "delete from phone_userlist where p_phone_number =? and p_user_name=?";
+			String sql = "delete from phone_userlist where p_phone_number =?";
 			try {
 
 				// 동적쿼리랑 비슷하다. 우선 쿼리를 가져온다.
 				PreparedStatement pstmt = this.conn.prepareStatement(sql);
 				// 해당 쿼리 ?를 순서에 맞게 채워준다.
 				pstmt.setString(1, phone_number);
-				pstmt.setString(2, user_name);
 				pstmt.execute();
 //				ResultSet rs = pstmt.executeQuery();
 
@@ -304,7 +310,13 @@ public class Phone_DBManager {
 				String user_name = sc.nextLine();
 				System.out.print("전화번호: ");
 				String user_phone = sc.nextLine();
+				if(user_phone.length() == 11 || user_phone.length() == 10) {
 				this.inputUser(user_phone, user_name, "N");
+				}
+				else {
+					System.out.println("잘못된 전화번호입니다.");
+					continue;
+				}
 
 				try {
 					System.out.println("계속 추가하시겠습니까?? Y|N");
@@ -324,19 +336,23 @@ public class Phone_DBManager {
 		public void delete_user_list() {
 			Scanner sc = new Scanner(System.in);
 			while (delete_flag) {
-				System.out.println("삭제할 이름과 전화번호를 추가해주세요");
-				System.out.println("이름: ");
-				String user_name = sc.nextLine();
+				System.out.println("삭제할 전화번호를 추가해주세요");
 				System.out.println("전화번호: ");
 				String user_phone = sc.nextLine();
-				this.deleteUser(user_phone, user_name);
-
+				if(user_phone.length() == 11 || user_phone.length() == 10) {
+				this.deleteUser(user_phone);
+				
 				System.out.println("계속 삭제하시겠습니까?? Y|N");
 				String yn = sc.nextLine();
 				if (yn.toLowerCase().equals("n") || !yn.toLowerCase().equals("y")) {
 					System.out.println("주소록 삭제를 종료합니다");
 					delete_flag = false;
 					break;
+				}
+				}
+				else {
+					System.out.println("잘못된 전화번호입니다.");
+					continue;
 				}
 			}
 		}
@@ -359,12 +375,14 @@ public class Phone_DBManager {
 			 int recount=this.block_recordCount();
 			 blockedList=new Phone_DBManager[recount];
 			 int numberCount=0;
-			 String sql="select * from Phone_Block";
+			 String sql="select a.p_phone_number,ifnull(b.p_user_name,'알 수 없는 번호') as p_user_name from Phone_Block a left join Phone_userlist b on a.p_phone_number = b.p_phone_number;";
 			 try {
 				 ResultSet rs=stmt.executeQuery(sql);
 				 while(rs.next()) {
 					 String phonenumber=rs.getString("p_phone_number");
-					 blockedList[numberCount++]=new Phone_DBManager(phonenumber);
+					 String pusername = rs.getString("p_user_name");
+					 blockedList[numberCount++]=new Phone_DBManager(phonenumber,pusername);
+					 //blockedList[numberCount++]=new Phone_DBManager(phonenumber);
 				 }
 				 rs.close();
 			 }catch(SQLException e){
@@ -386,16 +404,17 @@ public class Phone_DBManager {
 			 }catch(SQLException e) {
 				 e.printStackTrace();
 			 }
-			 String sql2 = "update phone_userlist set p_block_yn = ?";
+			 String sql2 = "update phone_userlist set p_block_yn = 'Y' where p_phone_number = ?";
 			 try {
 				 PreparedStatement pstmt=this.conn.prepareStatement(sql2);
-				 pstmt.setString(1,"Y");
+				 pstmt.setString(1,number);
 				 pstmt.executeUpdate();
 				 
 			 }catch(SQLException e) {
 				 e.printStackTrace();
 			 }
 		 }
+		
 		 
 		 public void outputNumber(String number) {
 			 String sql="delete from phone_block where p_phone_number = ?";
@@ -407,10 +426,10 @@ public class Phone_DBManager {
 			 }catch(SQLException e) {
 				 e.printStackTrace();
 			 }
-			 String sql2 = "update phone_userlist set p_block_yn = ?";
+			 String sql2 = "update phone_userlist set p_block_yn = 'N' where p_phone_number = ?";
 			 try {
 				 PreparedStatement pstmt=this.conn.prepareStatement(sql2);
-				 pstmt.setString(1,"N");
+				 pstmt.setString(1,number);
 				 pstmt.executeUpdate();
 				 
 			 }catch(SQLException e) {

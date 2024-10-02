@@ -208,8 +208,12 @@ public class Phone_Manager {
 		
 		System.out.print("번호: ");
 		String number=input.nextLine();
-		
-		manager.call(number);
+		if(number.length() == 11 || number.length() == 10) {
+			manager.call(number);	
+		}
+		else {
+			System.out.println("전화번호를 잘못 입력했습니다.");
+		}
 		
 		// manager.showCallHistory();
 		
@@ -267,20 +271,20 @@ public class Phone_Manager {
 	public void blockList() {
 			Scanner input = new Scanner(System.in);
 
-			System.out.println("############################");
+			System.out.println("============================");
 			System.out.println("차단목록리스트");
-			System.out.println();
+			System.out.println("");
 
 			Phone_DBManager manager = new Phone_DBManager();
 			manager.initDBConnect();
 			manager.allFetch();
 			Phone_DBManager[] blockedList = manager.getBlockedList();
 			for (int i = 0; i < blockedList.length; i++) {
-				System.out.println(blockedList[i].getPhone_number());
+				System.out.println(blockedList[i].getPhone_number() + "\t" +blockedList[i].getUser_name());
 			} // 차단리스트 불러오기
 
 			System.out.println();
-			System.out.println("############################");
+			System.out.println("============================");
 			System.out.println();
 			System.out.println("1.추가하기");
 			System.out.println("2.해제하기");

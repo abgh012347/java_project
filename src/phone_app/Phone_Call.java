@@ -46,20 +46,20 @@ public class Phone_Call {
 	public Phone_Call() {
 		// TODO Auto-generated constructor stub
 	}
-	public static void Phone_call(String number) {
-		Phone_DBManager manager = new Phone_DBManager();
-		Phone_DBManager[] oneUser=manager.selectOneCallHistory(number); // 폰번호로 조회한 유저정보를 객체배열에 넣는다.
-		LocalDateTime nowDateTime = LocalDateTime.now();
-		
-		
-		if(!manager.selectNumber(number)) {
-			System.out.println("연결 성공");
-			manager.inputCallUser(new Phone_DBManager(oneUser[0].getPhone_number(), nowDateTime));
-		} else {
-			System.out.println("차단된 번호입니다.");
-		}
-		
-	}
+//	public static void Phone_call(String number) {
+//		Phone_DBManager manager = new Phone_DBManager();
+//		Phone_DBManager[] oneUser=manager.selectOneCallHistory(number); // 폰번호로 조회한 유저정보를 객체배열에 넣는다.
+//		LocalDateTime nowDateTime = LocalDateTime.now();
+//		
+//		
+//		if(!manager.selectNumber(number)) {
+//			System.out.println("연결 성공");
+//			manager.inputCallUser(new Phone_DBManager(oneUser[0].getPhone_number(), nowDateTime));
+//		} else {
+//			System.out.println("차단된 번호입니다.");
+//		}
+//		
+//	}
 	
 	
 	
