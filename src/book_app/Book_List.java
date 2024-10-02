@@ -159,7 +159,7 @@ public class Book_List {
 				nowUser = idInput;
 				System.out.println("로그인 성공!!!");
 
-				break; // 로그인 성공 시 반복문 종료
+				break;
 			} else {
 				System.out.println("아이디 또는 패스워드가 잘못되었습니다.");
 				continue;
