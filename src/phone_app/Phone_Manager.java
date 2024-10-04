@@ -113,12 +113,17 @@ public class Phone_Manager {
 	            System.out.println("★ 메뉴 번호를 선택해 주세요");
 
 	            Scanner in = new Scanner(System.in);
-	            int number = in.nextInt();
-	            if(number < 1 || number >= 4) {
+	            String number = in.nextLine();
+	            if (!checkInputOnlyNumberAndAlphabet(number) || number.length() != 1) {
+					System.out.println("숫자를 입력해주세요. (1글자)");
+					continue;
+				}
+	            int num = Integer.parseInt(number);
+	            if(num < 1 || num >= 4) {
 	                System.out.println("메뉴번호가 틀렸습니다.");
 	                continue;
 	            } else {
-	                switch(number) {
+	                switch(num) {
 	                    case 1: 
 	                        //System.out.println("전화");
 	                        Phone_Menu_Open();
@@ -150,7 +155,19 @@ public class Phone_Manager {
 			System.out.println("4.차단목록");
 			System.out.println("5.전화 앱 종료");
 		}
-	
+	public static boolean checkInputOnlyNumberAndAlphabet(String textInput) {
+		char chrInput;
+
+		for (int i = 0; i < textInput.length(); i++) {
+
+			chrInput = textInput.charAt(i);
+
+			if (chrInput >= 0x30 && chrInput <= 0x39) {
+				return true;
+			}
+		}
+		return false;
+	}
 		public void Phone_Menu_Open() {
 		Scanner input = new Scanner(System.in);
 
@@ -159,13 +176,18 @@ public class Phone_Manager {
 		while (true) {
 			Phone_Menu();
 			System.out.print("메뉴번호를 선택해 주세요 : ");
-			int number = input.nextInt();
-
-			if (number < 1 || number > 5) {
+			//int number = input.nextInt();
+			 String number = input.nextLine();
+	            if (!checkInputOnlyNumberAndAlphabet(number) || number.length() != 1) {
+					System.out.println("숫자를 입력해주세요. (1글자)");
+					continue;
+				}
+	            int num = Integer.parseInt(number);
+			if (num < 1 || num > 5) {
 				System.out.println("메뉴번호가 틀렸습니다.다시 선택해 주세요.");
 				continue;
 			}
-			switch (number) {
+			switch (num) {
 			case 1:
 				call();
 				break;
@@ -177,6 +199,7 @@ public class Phone_Manager {
 				break;
 			case 4:
 				blockList();
+				break;
 			case 5:
 				end_flag = true;
 				break;       // 전화 앱 종료
@@ -210,11 +233,16 @@ public class Phone_Manager {
 		
 		System.out.print("번호: ");
 		String number=input.nextLine();
+		if (!checkInputOnlyNumberAndAlphabet(number) || number.length() != 11) {
+			System.out.println("전화번호를 입력해주세요.");
+			call();
+		}
 		if(number.length() == 11 || number.length() == 10) {
 			manager.call(number);	
 		}
 		else {
 			System.out.println("전화번호를 잘못 입력했습니다.");
+			call();
 		}
 		
 		// manager.showCallHistory();
@@ -256,8 +284,10 @@ public class Phone_Manager {
 		case 2:
 			manager.delete_user_list();
 			break;
-		default :
+		case 3:
 			break;
+		default :
+			contacts();
 		}
 		
 		
@@ -294,17 +324,23 @@ public class Phone_Manager {
 			System.out.println("2.해제하기");
 			System.out.println("3.뒤로가기");
 
-			boolean end_flag = false;
+			boolean sec_end_flag = false;
 
 			while (true) {
 				System.out.print("메뉴번호를 선택해 주세요 : ");
-				int number = input.nextInt();
+				 String number = input.nextLine();
+		            if (!checkInputOnlyNumberAndAlphabet(number) || number.length() != 1) {
+						System.out.println("숫자를 입력해주세요. (1글자)");
+						continue;
+					}
+		            int num = Integer.parseInt(number);
+				
 
-				if (number < 1 || number > 3) {
+				if (num < 1 || num > 3) {
 					System.out.println("메뉴번호가 틀렸습니다.다시 선택해 주세요.");
 					continue;
 				}
-				switch (number) {
+				switch (num) {
 				case 1:
 					addBlock();
 					break;
@@ -312,10 +348,10 @@ public class Phone_Manager {
 					unblock(blockedList);
 					break;
 				case 3:
-					end_flag = true;
+					sec_end_flag = true;
 					break;
 				}
-				if (end_flag) {
+				if (sec_end_flag) {
 					break;
 				}
 			}
