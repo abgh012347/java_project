@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Phone_DBManager {
@@ -19,7 +21,7 @@ public class Phone_DBManager {
 
 	public static Connection conn = null;
 	public static Statement stmt = null;
-	static Phone_DBManager[] userList=new Phone_DBManager[5];
+	static Phone_DBManager[] userList = new Phone_DBManager[10];
 	public Phone_DBManager[] blockedList = null;
 
 	static int callCount=0;
@@ -89,7 +91,19 @@ public class Phone_DBManager {
 			e.printStackTrace();
 		}
 	}
-	
+	public static boolean checkInputOnlyNumberAndAlphabet(String textInput) {
+		char chrInput;
+
+		for (int i = 0; i < textInput.length(); i++) {
+
+			chrInput = textInput.charAt(i);
+
+			if (chrInput >= 0x30 && chrInput <= 0x39) {
+				return true;
+			}
+		}
+		return false;
+	}
 		public Phone_DBManager() {
 			
 		}
@@ -187,7 +201,7 @@ public class Phone_DBManager {
 		}
 		
 		public static void showCallHistory() {
-			String sql = "select c.p_history_no as id, u.p_user_name as name, c.p_phone_number as number, c.p_call_date as date from Phone_CallHistory c inner join phone_userlist u where c.p_phone_number=u.p_phone_number order by id desc;";
+			String sql = "select row_number() over (order by c.p_history_no) as id, ifnull(u.p_user_name,'???') as name, c.p_phone_number as number, c.p_call_date as date from Phone_CallHistory c left join phone_userlist u on c.p_phone_number = u.p_phone_number order by id desc;;";
 			
 			try {
 //				Phone_Manager manager = new Phone_Manager();
@@ -309,9 +323,26 @@ public class Phone_DBManager {
 				System.out.print("이름: ");
 				String user_name = sc.nextLine();
 				System.out.print("전화번호: ");
-				String user_phone = sc.nextLine();
-				if(user_phone.length() == 11 || user_phone.length() == 10) {
-				this.inputUser(user_phone, user_name, "N");
+				String insert_user_phone = sc.nextLine();
+				if (!checkInputOnlyNumberAndAlphabet(insert_user_phone) || insert_user_phone.length() != 11) {
+					System.out.println("전화번호를 입력해주세요.");
+					continue;
+				}
+				List<String> list = new ArrayList<String>();
+				list = getAllUser_all();
+				for (int i = 0;i<list.size();i++) 
+				{
+					if(list.get(i).equals(insert_user_phone)) {
+						System.out.println("이미 저장된 번호입니다.");
+						continue;
+					}
+					else {
+						
+					}
+				}
+				
+				if(insert_user_phone.length() == 11 || insert_user_phone.length() == 10) {
+				this.inputUser(insert_user_phone, user_name, "N");
 				}
 				else {
 					System.out.println("잘못된 전화번호입니다.");
@@ -332,6 +363,29 @@ public class Phone_DBManager {
 
 			}
 		}
+		public static List<String> getAllUser_all() { // 번호에 대한 유저정보를 가져오는 메서드
+			String sql = "select * from Phone_UserList";
+			ArrayList<String> get_phone_number = new ArrayList<String>();
+			
+			try {
+//				Phone_Manager manager = new Phone_Manager();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+				//Phone_DBManager	userList[] = new Phone_DBManager[rs.row];
+				while (rs.next()) {
+					String number = rs.getString("p_phone_number");
+					
+					get_phone_number.add(number);
+				}
+				rs.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return (get_phone_number);
+		}
+		
 
 		public void delete_user_list() {
 			Scanner sc = new Scanner(System.in);
